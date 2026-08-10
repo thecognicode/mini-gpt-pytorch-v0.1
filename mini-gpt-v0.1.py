@@ -34,3 +34,15 @@ class MiniGPT(nn.Module):
 
         # Combine word meaning with word position
         x = self.token_embedding(idx) + self.position_embedding(pos)
+
+        causal_mask = torch.triu(torch.full((seq_len, seq_len), float('-inf')), diagonal=1).to(idx.device)
+
+        for block in self.blocks:
+            x = block(x, mask=causal_mask)
+        
+        x = self.ln_f(x)
+        logits = self.head(x)
+        return logits
+
+    
+    @torch.no_grad()
