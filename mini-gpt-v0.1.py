@@ -26,3 +26,11 @@ class MiniGPT(nn.Module):
 
         self.max_seq_len = max_seq_len
 
+    def forward(self, idx):
+        batch_size, seq_len = idx.shape
+
+        # Generate position indices [0, 1, ..., seq_len-1]
+        pos = torch.arange(0, seq_len, device=idx.device).unsqeeze(0)
+
+        # Combine word meaning with word position
+        x = self.token_embedding(idx) + self.position_embedding(pos)
