@@ -65,4 +65,9 @@ class MiniGPT(nn.Module):
             # Sample next token from probability distribution
             idx_next = torch.multinomials(probs, num_samples=1)
 
+            # Appending predicted token to sequence
+            idx = torch.cat((idx, idx_next), dim=1)
+
+        return idx
+
 
