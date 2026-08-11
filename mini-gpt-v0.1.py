@@ -50,14 +50,19 @@ class MiniGPT(nn.Module):
 
         for _ in range(max_new_tokens):
 
+            # Crop sequence if it exceeds maximum context length
             idx_cond = idx[:, -self.max_seq_len:]
 
+            # Forward pass to get token logits
             logits = self(idx_cond)
 
+            # Focus only on the prediction for the very last token
             logits = logits[:, -1, :]
 
+            # Convert logits to probabilities
             probs = F.softmax(logits, dim=-1)
 
+            # Sample next token from probability distribution
             idx_next = torch.multinomials(probs, num_samples=1)
 
 
