@@ -53,3 +53,11 @@ class MiniGPT(nn.Module):
             idx_cond = idx[:, -self.max_seq_len:]
 
             logits = self(idx_cond)
+
+            logits = logits[:, -1, :]
+
+            probs = F.softmax(logits, dim=-1)
+
+            idx_next = torch.multinomials(probs, num_samples=1)
+
+
