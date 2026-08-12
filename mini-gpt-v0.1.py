@@ -81,8 +81,10 @@ max_seq_len = 32  # Context window length
 
 model = MiniGPT(vocab_size, embed_dim, num_heads, num_layers, max_seq_len)
 
+# Context prompt: batch of 1 sequence containing 4 token IDs
 prompt_tokens = torch.tensor([[10, 45, 234, 89]])
 
+# Generate 10 new tokens autoregressively
 generated_sequence = model.generate(prompt_tokens, max_new_tokens=10)
 
 print("Input prompt tokens: ", prompt_tokens.tolist())
