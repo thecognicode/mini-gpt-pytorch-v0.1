@@ -79,3 +79,11 @@ num_heads = 4
 num_layers = 4
 max_seq_len = 32
 
+model = MiniGPT(vocab_size, embed_dim, num_heads, num_layers, max_seq_len)
+
+prompt_tokens = torch.tensor([[10, 45, 234, 89]])
+
+generated_sequence = model.generate(prompt_tokens, max_new_tokens=10)
+
+print("Input prompt tokens: ", prompt_tokens.tolist())
+print("Full generated output: ", generated_sequence.tolist())
