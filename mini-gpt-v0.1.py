@@ -73,11 +73,11 @@ class MiniGPT(nn.Module):
 
 # ** Demo Initialization **
 
-vocab_size = 1000
-embed_dim = 128
-num_heads = 4
-num_layers = 4
-max_seq_len = 32
+vocab_size = 1000 # Size of the dictionary
+embed_dim = 128   # Vector size per token
+num_heads = 4     # Number of parallel attention heads
+num_layers = 4    # Number of stacked transformer blocks
+max_seq_len = 32  # Context window length
 
 model = MiniGPT(vocab_size, embed_dim, num_heads, num_layers, max_seq_len)
 
