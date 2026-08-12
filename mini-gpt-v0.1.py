@@ -14,7 +14,7 @@ class MiniGPT(nn.Module):
         self.blocks = nn.ModuleList([
             nn.TransformerEncoderLayer(
                 d_model = embed_dim,
-                nheads = num_heads,
+                nhead = num_heads,
                 dim_feedforward=4 * embed_dim,
                 batch_first = True
             ) for _ in range(num_layers)
@@ -30,7 +30,7 @@ class MiniGPT(nn.Module):
         batch_size, seq_len = idx.shape
 
         # Generate position indices [0, 1, ..., seq_len-1]
-        pos = torch.arange(0, seq_len, device=idx.device).unsqeeze(0)
+        pos = torch.arange(0, seq_len, device=idx.device).unsqueeze(0)
 
         # Combine word meaning with word position
         x = self.token_embedding(idx) + self.position_embedding(pos)
