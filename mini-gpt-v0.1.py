@@ -38,7 +38,7 @@ class MiniGPT(nn.Module):
         causal_mask = torch.triu(torch.full((seq_len, seq_len), float('-inf')), diagonal=1).to(idx.device)
 
         for block in self.blocks:
-            x = block(x, mask=causal_mask)
+            x = block(x, src_mask=causal_mask)
         
         x = self.ln_f(x)
         logits = self.head(x)
@@ -63,7 +63,7 @@ class MiniGPT(nn.Module):
             probs = F.softmax(logits, dim=-1)
 
             # Sample next token from probability distribution
-            idx_next = torch.multinomials(probs, num_samples=1)
+            idx_next = torch.multinomial(probs, num_samples=1)
 
             # Appending predicted token to sequence
             idx = torch.cat((idx, idx_next), dim=1)
@@ -82,7 +82,7 @@ max_seq_len = 32  # Context window length
 model = MiniGPT(vocab_size, embed_dim, num_heads, num_layers, max_seq_len)
 
 # Context prompt: batch of 1 sequence containing 4 token IDs
-prompt_tokens = torch.tensor([[10, 45, 234, 89]])
+prompt_tokens = torch.tensor([[1, 2, 3, 4]])
 
 # Generate 10 new tokens autoregressively
 generated_sequence = model.generate(prompt_tokens, max_new_tokens=10)
